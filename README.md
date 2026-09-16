@@ -38,6 +38,91 @@ The project contains eight related tables:
 
 The dataset uses a reporting cutoff of `2026-09-01 23:59:59`.
 
+## Portfolio dashboard
+
+![NovaHealth analytics overview](assets/novahealth-dashboard.png)
+
+## Data model
+
+```mermaid
+erDiagram
+    customers ||--o{ subscriptions : has
+    plans ||--o{ subscriptions : defines
+    subscriptions ||--o| intakes : has
+    subscriptions ||--o{ appointments : schedules
+    subscriptions ||--o{ payments : generates
+    payments ||--o| refunds : may_have
+    subscriptions ||--o{ subscription_events : records
+
+    customers {
+        int customer_id PK
+        char gender
+        date signup_date
+        char state_code
+        varchar acquisition_channel
+    }
+
+    plans {
+        int plan_id PK
+        varchar plan_name
+        numeric monthly_price
+    }
+
+    subscriptions {
+        int subscription_id PK
+        int customer_id FK
+        int plan_id FK
+        varchar subscription_status
+        timestamp selected_at
+        timestamp activated_at
+        timestamp ended_at
+    }
+
+    intakes {
+        int intake_id PK
+        int subscription_id FK
+        varchar intake_status
+        timestamp started_at
+        timestamp completed_at
+    }
+
+    appointments {
+        int appointment_id PK
+        int subscription_id FK
+        varchar appointment_type
+        varchar appointment_status
+        varchar eligibility_result
+        timestamp scheduled_at
+        timestamp completed_at
+    }
+
+    payments {
+        int payment_id PK
+        int subscription_id FK
+        timestamp payment_date
+        varchar payment_status
+        varchar payment_type
+        numeric amount
+    }
+
+    refunds {
+        int refund_id PK
+        int payment_id FK
+        timestamp processed_at
+        numeric refund_amount
+        varchar refund_reason
+        varchar refund_status
+    }
+
+    subscription_events {
+        int event_id PK
+        int subscription_id FK
+        varchar event_type
+        varchar event_reason
+        timestamp event_timestamp
+    }
+```
+
 ## Analysis coverage
 
 - Subscription funnel and conversion
@@ -66,6 +151,9 @@ The dataset uses a reporting cutoff of `2026-09-01 23:59:59`.
 ## Repository structure
 
 ```
+assets/
+    novahealth-dashboard.png
+
 data/
     customers.csv
 
@@ -76,6 +164,7 @@ sql/
     04_analysis.sql
 ```
 
+- `novahealth-dashboard.png` summarizes selected portfolio findings.
 - `01_schema.sql` creates the database tables and constraints.
 - `02_seed.sql` generates deterministic synthetic operational data.
 - `03_validation.sql` contains summary and integrity checks.
