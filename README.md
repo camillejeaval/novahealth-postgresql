@@ -38,6 +38,31 @@ The project contains eight related tables:
 
 The dataset uses a reporting cutoff of `2026-09-01 23:59:59`.
 
+## Analysis coverage
+
+- Subscription funnel and conversion
+- Acquisition-channel activation
+- Intake and appointment outcomes
+- Treatment and cancellation behavior
+- Payments, refunds, and monthly trends
+- Returning-customer behavior
+
+## Key findings
+
+- Google Ads has the highest activation rate at 82.66%.
+- 90.95% of renewal payments were successful.
+- 92.19% of intakes were completed.
+- Plan cancellation percentages are close, ranging from 21.37% to 22.85%.
+- Successful payment amounts total 592,032.00 before refunds and 587,764.00 after completed refunds.
+
+## Interpretation notes
+
+- The data is synthetic and deterministic.
+- Results are point-in-time as of the reporting cutoff.
+- Pending and scheduled records are unresolved.
+- Treatment completion percentages may rise after the cutoff.
+- The analysis is descriptive and doesn’t establish causation.
+
 ## Repository structure
 
 ```
@@ -85,4 +110,4 @@ The `customer_id` column is generated automatically by PostgreSQL.
 
 ## Status
 
-Database design, synthetic data generation, and validation are complete. Portfolio analysis is in progress.
+Database design, synthetic data generation, validation, and portfolio analysis are complete.
